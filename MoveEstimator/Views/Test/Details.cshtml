@@ -1,0 +1,50 @@
+﻿@model MoveEstimator.Models.Estimate
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Estimate</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.SmallBedroom)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.SmallBedroom)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.MediumMove)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.MediumMove)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.LargeMove)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.LargeMove)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.FromLocation.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.FromLocation.Name)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.ToLocation.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ToLocation.Name)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

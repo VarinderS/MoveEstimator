@@ -1,0 +1,70 @@
+﻿@model MoveEstimator.Models.Estimate
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Estimate</legend>
+
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.SmallBedroom)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.SmallBedroom)
+            @Html.ValidationMessageFor(model => model.SmallBedroom)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.MediumMove)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.MediumMove)
+            @Html.ValidationMessageFor(model => model.MediumMove)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.LargeMove)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.LargeMove)
+            @Html.ValidationMessageFor(model => model.LargeMove)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.FromLocationId, "FromLocation")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("FromLocationId", String.Empty)
+            @Html.ValidationMessageFor(model => model.FromLocationId)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ToLocationId, "ToLocation")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("ToLocationId", String.Empty)
+            @Html.ValidationMessageFor(model => model.ToLocationId)
+        </div>
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

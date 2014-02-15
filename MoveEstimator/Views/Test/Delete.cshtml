@@ -1,0 +1,54 @@
+﻿@model MoveEstimator.Models.Estimate
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<fieldset>
+    <legend>Estimate</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.SmallBedroom)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.SmallBedroom)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.MediumMove)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.MediumMove)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.LargeMove)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.LargeMove)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.FromLocation.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.FromLocation.Name)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.ToLocation.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ToLocation.Name)
+    </div>
+</fieldset>
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}

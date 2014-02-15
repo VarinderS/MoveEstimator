@@ -1,0 +1,46 @@
+﻿@model IEnumerable<MoveEstimator.Models.Estimate>
+
+@{
+	ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<table>
+	<thead>
+		@using (Html.BeginForm())
+  {
+			<tr>
+				<td>@Html.DropDownList("FromLocationId", "From Location")</td>
+				<td>@Html.DropDownList("ToLocationId", "To Location")</td>
+				<td><input type="submit" name="submit-name" value="search" /></td>
+			</tr>			
+  }
+		<tr>
+			<td>@Html.DisplayNameFor(model => model.FromLocation)</td>
+			<td>@Html.DisplayNameFor(model => model.ToLocation)</td>
+			<td>@Html.DisplayNameFor(model => model.SmallMove)</td>
+			<td>@Html.DisplayNameFor(model => model.MediumMove)</td>
+			<td>@Html.DisplayNameFor(model => model.LargeMove)</td>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var estimate in Model)
+		{
+			<tr>
+				<td>@Html.DisplayFor(model => estimate.FromLocation.Name)</td>
+				<td>@Html.DisplayFor(model => estimate.ToLocation.Name)</td>
+				<td>@Html.DisplayFor(model => estimate.SmallMove)</td>
+				<td>@Html.DisplayFor(model => estimate.MediumMove)</td>
+				<td>@Html.DisplayFor(model => estimate.LargeMove)</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>@Html.DropDownList("ToLocationId", "To Location")</td>
+				<td>@Html.EditorFor(model => estimate.SmallMove)</td>
+				<td>@Html.EditorFor(model => estimate.MediumMove)</td>
+				<td>@Html.EditorFor(model => estimate.LargeMove)</td>
+			</tr>
+		}
+	</tbody>
+</table>
