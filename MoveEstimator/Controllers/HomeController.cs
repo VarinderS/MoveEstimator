@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using MoveEstimator.Models;
+using System.Data;
 
 namespace MoveEstimator.Controllers
 {
@@ -58,10 +59,25 @@ namespace MoveEstimator.Controllers
 		}
 
 		[HttpPost]
+        public ActionResult Edit( Estimate estimate )
+        {
+			if ( ModelState.IsValid ) 
+			{
+				db.Entry( estimate ).State = EntityState.Modified;
+				db.SaveChanges();
+			}
+            return RedirectToAction("Index");
+        }
+
+		[HttpPost]
 		public ActionResult Create( Estimate estimate )
 		{
-			
-			return View();
+			if ( ModelState.IsValid )
+			{
+				db.Estimates.Add( estimate );
+				db.SaveChanges();
+			}
+			return RedirectToAction("Index");
 		}
 
     }
