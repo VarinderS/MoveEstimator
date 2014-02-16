@@ -18,13 +18,18 @@ namespace MoveEstimator.Controllers
         {
 			var estimates = db.Estimates.Include(e => e.FromLocation).Include(e => e.ToLocation).ToList();
 
-			ViewBag.FromLocationId = new SelectList( db.Locations, "Id", "Name" );
-			ViewBag.ToLocationId = new SelectList( db.Locations, "Id", "Name" );
+            //ViewBag.FromLocationId = new SelectList(db.Locations.ToList(), "Id", "Name", db.Estimates.FirstOrDefault().FromLocationId);
+			//ViewBag.ToLocationId = new SelectList( db.Locations, "Id", "Name", db.Estimates.FirstOrDefault().ToLocationId );
 
-            return View( estimates );
+            var estimateViewModel = new EstimateViewModel();
+
+            estimateViewModel.Estimates = estimates;
+            estimateViewModel.Locations = db.Locations.ToList(); //new SelectList( db.Locations, "Id", "Name" );
+
+            return View( estimateViewModel );
         }
 
-		[HttpPost]
+        [HttpGet]
 		public ActionResult Index( int FromLocationId = 0, int ToLocationId = 0 )
 		{
 			IQueryable<Estimate> filteredEstimates = db.Estimates;
@@ -41,10 +46,15 @@ namespace MoveEstimator.Controllers
 
 			// var filteredEstimates = db.Estimates.Where( estimate => estimate.FromLocationId == FromLocationId && estimate.ToLocationId == ToLocationId );//.ToList();
 
-			ViewBag.FromLocationId = new SelectList(db.Locations, "Id", "Name", FromLocationId);
-			ViewBag.ToLocationId = new SelectList(db.Locations, "Id", "Name", ToLocationId);
+            // ViewBag.FromLocationId = new SelectList(db.Locations, "Id", "Name", FromLocationId);
+            // ViewBag.ToLocationId = new SelectList(db.Locations, "Id", "Name", ToLocationId);
 
-			return View( filteredEstimates.ToList() );
+            var estimateViewModel = new EstimateViewModel();
+
+            estimateViewModel.Estimates = filteredEstimates;
+            estimateViewModel.Locations = db.Locations.ToList();
+
+			return View( estimateViewModel );
 		}
 
 		[HttpPost]
