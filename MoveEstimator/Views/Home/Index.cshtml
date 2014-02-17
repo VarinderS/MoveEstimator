@@ -1,4 +1,21 @@
-﻿@model MoveEstimator.Models.EstimateViewModel
+﻿@model IEnumerable<MoveEstimator.Models.EstimateViewModel>
+
+<h2>Estimates</h2>
+
+<table>	
+	
+	@foreach (var estimate in Model)
+	{
+		@Html.Partial("_estimateRow", estimate)
+	}
+</table>
+
+<hr />
+<table>
+	@Html.EditorForModel()
+</table>
+
+@*@model MoveEstimator.Models.EstimateViewModel
 
 @{
 	ViewBag.Title = "Index";
@@ -89,4 +106,4 @@
 
 		}
 	</tbody>
-</table>
+</table>*@
