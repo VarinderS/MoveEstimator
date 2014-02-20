@@ -2,108 +2,13 @@
 
 <h2>Estimates</h2>
 
-<table>	
-	
-	@foreach (var estimate in Model)
-	{
-		@Html.Partial("_estimateRow", estimate)
-	}
-</table>
+<p>@ViewData["FromSearch"]</p>
+
+@*@Html.Partial("_estimateSearchForm", Model.FirstOrDefault())*@
 
 <hr />
-<table>
-	@Html.EditorForModel()
-</table>
 
-@*@model MoveEstimator.Models.EstimateViewModel
-
-@{
-	ViewBag.Title = "Index";
-    var estimates = Model.Estimates;
-    var locations = Model.Locations;
-    var estimate = estimates.FirstOrDefault();
-}
-
-<h2>Index</h2>
-
-@using (Html.BeginForm("Create", "Home", FormMethod.Post))
+@foreach (var estimate in Model)
 {
-	<table>
-		<tr>
-			<td>
-				@Html.DropDownListFor( model => estimate.FromLocationId, new SelectList( locations, "Id", "Name", "From Location" ), new { Name="FromLocationId" } )
-			</td>
-			<td>
-				@Html.DropDownListFor( model => estimate.ToLocationId, new SelectList( locations, "Id", "Name", "To Location" ), new { Name="ToLocationId" } )
-			</td>
-			<td>
-				@Html.TextBoxFor( model => estimate.SmallMove, new { Name="SmallMove" } )
-			</td>
-			<td>
-				@Html.TextBoxFor( model => estimate.MediumMove, new { Name="MediumMove" } )
-			</td>
-			<td>
-				@Html.TextBoxFor( model => estimate.LargeMove, new { Name="LargeMove" } )
-			</td>
-			<td>
-				<input type="submit" value="Create" />
-			</td>
-		</tr>
-	</table>
+	@Html.Partial("_estimateForm", estimate)
 }
-
-<table>
-	@using (Html.BeginForm("Index", "Home", FormMethod.Get))
-    {
-		<tr>
-			<td>@Html.DropDownListFor(model => estimate.FromLocationId, new SelectList(locations, "Id", "Name"), "Please Select", new { Name="FromLocationId" })</td>
-			<td>@Html.DropDownListFor( model => estimate.ToLocationId, new SelectList(locations, "Id", "Name"), "Please Select", new { Name="ToLocationId" })</td>
-			<td><input type="submit" value="search" /></td>
-		</tr>
-    }
-</table>
-
-<table>
-	<thead>
-		<tr>
-			<td>@Html.DisplayNameFor(model => estimate.FromLocation)</td>
-			<td>@Html.DisplayNameFor(model => estimate.ToLocation)</td>
-			<td>@Html.DisplayNameFor(model => estimate.SmallMove)</td>
-			<td>@Html.DisplayNameFor(model => estimate.MediumMove)</td>
-			<td>@Html.DisplayNameFor(model => estimate.LargeMove)</td>
-		</tr>
-	</thead>
-	<tbody>
-		@foreach (var item in estimates)
-		{
-			<tr>
-				<td colspan="5">
-					<table>
-						<tr>
-							<td>@Html.DisplayFor(model => item.FromLocation.Name)</td>
-							<td>@Html.DisplayFor(model => item.ToLocation.Name)</td>
-							<td>@Html.DisplayFor(model => item.SmallMove)</td>
-							<td>@Html.DisplayFor(model => item.MediumMove)</td>
-							<td>@Html.DisplayFor(model => item.LargeMove)</td>
-						</tr>
-					</table>
-					@using (Html.BeginForm("Edit", "Home", FormMethod.Post))
-					{
-						@Html.TextBoxFor(model => item.Id, new { hidden="", Name="Id" })
-						<table>
-							<tr>
-								<td>@Html.DropDownListFor( model => item.FromLocationId, new SelectList( locations, "Id", "Name", item.FromLocationId ), new { Name="FromLocationId" } )</td>
-								<td>@Html.DropDownListFor( model => item.ToLocationId, new SelectList( locations, "Id", "Name", item.ToLocationId ), new { Name="ToLocationId" } )</td>
-								<td>@Html.TextBoxFor(model => item.SmallMove, new { Name="SmallMove" })</td>
-								<td>@Html.TextBoxFor(model => item.MediumMove, new { Name="MediumMove" })</td>
-								<td>@Html.TextBoxFor(model => item.LargeMove, new { Name="LargeMove" })</td>
-							</tr>
-						</table>
-						<input type="submit" value="edit" />
-					}
-				</td>
-			</tr>
-
-		}
-	</tbody>
-</table>*@

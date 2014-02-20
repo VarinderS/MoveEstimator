@@ -15,24 +15,26 @@ namespace MoveEstimator.Controllers
         // GET: /Home/
 		private readonly Db db = new Db();
 
-        public ActionResult Index()
+        public ActionResult Index( EstimateViewModel estimateViewModel )
         {
-			var estimates = db.Estimates.Include(e => e.FromLocation).Include(e => e.ToLocation).ToList();
+			IQueryable<Estimate> estimates = db.Estimates.AsQueryable();
 
-            //ViewBag.FromLocationId = new SelectList(db.Locations.ToList(), "Id", "Name", db.Estimates.FirstOrDefault().FromLocationId);
-			//ViewBag.ToLocationId = new SelectList( db.Locations, "Id", "Name", db.Estimates.FirstOrDefault().ToLocationId );
+			if ( estimateViewModel.FromLocationId != 0 )
+			{
+				estimates = estimates.Where( estimate => estimate.FromLocationId == estimateViewModel.FromLocationId );
+			}
 
-            // var estimateViewModel = new EstimateViewModel();
+			if ( estimateViewModel.ToLocationId != 0 ) 
+			{
+				estimates = estimates.Where( estimate => estimate.ToLocationId == estimateViewModel.ToLocationId );
+			}
 
-            // estimateViewModel.Estimates = estimates;
-            // estimateViewModel.Locations = db.Locations.ToList(); //new SelectList( db.Locations, "Id", "Name" );
-
-            // return View( estimateViewModel );
+			var estimatesList = estimates.ToList();
 
 			var Locations = db.Locations.ToList();
 			var EstimateViewModels = new List<EstimateViewModel>();
 
-			estimates.ForEach( 
+			estimatesList.ForEach( 
 						estimate =>
 						EstimateViewModels.Add( 
 							new EstimateViewModel() 
@@ -50,61 +52,20 @@ namespace MoveEstimator.Controllers
 			return View(EstimateViewModels);
         }
 
-        [HttpGet]
-		public ActionResult Index( int FromLocationId = 0, int ToLocationId = 0 )
-		{
-			IQueryable<Estimate> filteredEstimates = db.Estimates;
-
-			if ( FromLocationId != 0 ) 
-			{
-				filteredEstimates = filteredEstimates.Where( estimate => estimate.FromLocationId == FromLocationId );	
-			}
-
-			if ( ToLocationId != 0 )
-			{
-				filteredEstimates = filteredEstimates.Where( estimate => estimate.ToLocationId == ToLocationId );
-			}
-
-			// var filteredEstimates = db.Estimates.Where( estimate => estimate.FromLocationId == FromLocationId && estimate.ToLocationId == ToLocationId );//.ToList();
-
-            // ViewBag.FromLocationId = new SelectList(db.Locations, "Id", "Name", FromLocationId);
-            // ViewBag.ToLocationId = new SelectList(db.Locations, "Id", "Name", ToLocationId);
-
-			var estimates = filteredEstimates.ToList();
-
-			//var estimateViewModel = new EstimateViewModel();
-
-			//estimateViewModel.Estimates = filteredEstimates;
-			//estimateViewModel.Locations = db.Locations.ToList();
-
-			var Locations = db.Locations.ToList();
-			var EstimateViewModels = new List<EstimateViewModel>();
-
-			estimates.ForEach(
-						estimate =>
-						EstimateViewModels.Add(
-							new EstimateViewModel()
-							{
-								EstimateId = estimate.Id,
-								SmallMove = estimate.SmallMove,
-								MediumMove = estimate.MediumMove,
-								LargeMove = estimate.LargeMove,
-								FromLocationId = estimate.FromLocationId,
-								ToLocationId = estimate.ToLocationId,
-								Locations = Locations
-							})
-						);
-
-
-			return View(EstimateViewModels);
-		}
-
 		[HttpPost]
-        public ActionResult Edit( Estimate estimate )
+        public ActionResult Update( EstimateViewModel estimateViewModel )
         {
 			if ( ModelState.IsValid ) 
 			{
-				db.Entry( estimate ).State = EntityState.Modified;
+				Estimate estimate = new Estimate { 
+										Id = estimateViewModel.EstimateId,
+										FromLocationId = estimateViewModel.FromLocationId,
+										ToLocationId = estimateViewModel.ToLocationId,
+										SmallMove = estimateViewModel.SmallMove,
+										MediumMove = estimateViewModel.MediumMove,
+										LargeMove = estimateViewModel.LargeMove
+									};
+				db.Entry(estimate).State = EntityState.Modified;
 				db.SaveChanges();
 			}
             return RedirectToAction("Index");

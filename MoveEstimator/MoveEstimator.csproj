@@ -178,6 +178,9 @@
     <Content Include="Views\Test\Edit.cshtml" />
     <Content Include="Views\Test\Delete.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\EditorTemplates\EstimateViewModel.cshtml" />
+    <Content Include="Views\Home\_estimateForm.cshtml" />
+    <Content Include="Views\Home\_estimateSearchForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
