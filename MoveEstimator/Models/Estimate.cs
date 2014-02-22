@@ -10,7 +10,7 @@ namespace MoveEstimator.Models
 	{
 		public int Id { get; set; }
 
-		[Display(Name="Small Move")]
+		[Display(Name = "Small Move")]
 		public double SmallMove { get; set; }
 
 		[Display(Name = "Medium Move")]

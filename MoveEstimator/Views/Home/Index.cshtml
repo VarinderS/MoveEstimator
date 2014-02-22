@@ -1,14 +1,64 @@
-﻿@model IEnumerable<MoveEstimator.Models.EstimateViewModel>
+﻿@model MoveEstimator.Models.HomeViewModel
 
 <h2>Estimates</h2>
 
-<p>@ViewData["FromSearch"]</p>
+@TempData["AlreadyExsists"]
 
-@*@Html.Partial("_estimateSearchForm", Model.FirstOrDefault())*@
+@{ 
+	var searchViewModel = Model.searchViewModel;
+	var estimateList = Model.EstimateViewModelList;
+	var singleEstimate = Model.EstimateViewModelList.FirstOrDefault();
+	var addEstimate = Model.AddEstimate;
+}
+
+<!-- form for search -->
+
+@using ( Html.BeginForm("Index", "Home", FormMethod.Get) )
+{
+	<table>
+		<tr>
+			<td>@Html.DropDownListFor( model => searchViewModel.FromLocationId, new SelectList( Model.Locations, "Id", "Name", searchViewModel.FromLocationId ), "From Location" )</td>
+			<td>@Html.DropDownListFor( model => searchViewModel.ToLocationId, new SelectList( Model.Locations, "Id", "Name", searchViewModel.ToLocationId ), "To Location" )</td>
+			<td><input type="submit" name="search" /></td>
+		</tr>
+	
+	</table>
+}
 
 <hr />
 
-@foreach (var estimate in Model)
+<table>
+	<tr>
+		<th>@Html.DisplayNameFor( model => singleEstimate.FromLocationName )</th>
+		<th>@Html.DisplayNameFor( model => singleEstimate.ToLocationName )</th>
+		<th>@Html.DisplayNameFor( model => singleEstimate.SmallMove )</th>
+		<th>@Html.DisplayNameFor( model => singleEstimate.MediumMove )</th>
+		<th>@Html.DisplayNameFor( model => singleEstimate.LargeMove )</th>
+	</tr>
+	@foreach (var estimate in estimateList)
+	{
+		<tr>
+			<td>@Html.DisplayFor( model => estimate.FromLocationName )</td>
+			<td>@Html.DisplayFor( model => estimate.ToLocationName )</td>
+			<td>@Html.DisplayFor( model => estimate.SmallMove )</td>
+			<td>@Html.DisplayFor( model => estimate.MediumMove )</td>
+			<td>@Html.DisplayFor( model => estimate.LargeMove )</td>
+		</tr>	
+	}
+</table>
+
+<hr />
+
+@using ( Html.BeginForm( "Create", "Home", FormMethod.Post ) )
 {
-	@Html.Partial("_estimateForm", estimate)
+	<table>
+		<tr>
+			<td>@Html.DropDownListFor( model => model.AddEstimate.FromLocationId, new SelectList( Model.Locations, "Id", "Name", Model.AddEstimate.FromLocationId ), "From Location" )</td>
+			<td>@Html.DropDownListFor( model => model.AddEstimate.ToLocationId, new SelectList( Model.Locations, "Id", "Name", Model.AddEstimate.ToLocationId ), "To Location" )</td>
+			<td>@Html.EditorFor( model => model.AddEstimate.SmallMove )</td>
+			<td>@Html.EditorFor( model => model.AddEstimate.MediumMove )</td>
+			<td>@Html.EditorFor( model => model.AddEstimate.LargeMove )</td>
+			<td><input type="submit" value="Add" /></td>
+		</tr>
+	</table>
 }

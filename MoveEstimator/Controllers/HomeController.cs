@@ -15,41 +15,54 @@ namespace MoveEstimator.Controllers
         // GET: /Home/
 		private readonly Db db = new Db();
 
-        public ActionResult Index( EstimateViewModel estimateViewModel )
+        public ActionResult Index( SearchViewModel searchViewModel )
         {
-			IQueryable<Estimate> estimates = db.Estimates.AsQueryable();
+			var homeViewModel = new HomeViewModel();
 
-			if ( estimateViewModel.FromLocationId != 0 )
+			var locations = db.Locations.ToList();
+
+			var estimates = db.Estimates.AsQueryable();
+
+			if (searchViewModel.FromLocationId != 0 && searchViewModel.FromLocationId != null)
 			{
-				estimates = estimates.Where( estimate => estimate.FromLocationId == estimateViewModel.FromLocationId );
+				estimates = estimates.Where(estimate => estimate.FromLocationId == searchViewModel.FromLocationId);
 			}
 
-			if ( estimateViewModel.ToLocationId != 0 ) 
+			if (searchViewModel.ToLocationId != 0 && searchViewModel.ToLocationId != null)
 			{
-				estimates = estimates.Where( estimate => estimate.ToLocationId == estimateViewModel.ToLocationId );
+				estimates = estimates.Where(estimate => estimate.ToLocationId == searchViewModel.ToLocationId);
+			}
+			
+			if ( searchViewModel.Locations == null )
+			{
+				searchViewModel.Locations = locations;
 			}
 
-			var estimatesList = estimates.ToList();
+			var estimateList = estimates.ToList();
 
-			var Locations = db.Locations.ToList();
-			var EstimateViewModels = new List<EstimateViewModel>();
+			var estimateViewModelList = new List<EstimateViewModel>();
 
-			estimatesList.ForEach( 
-						estimate =>
-						EstimateViewModels.Add( 
-							new EstimateViewModel() 
-							{ 
-								EstimateId = estimate.Id,
-								SmallMove = estimate.SmallMove,
-								MediumMove = estimate.MediumMove,
-								LargeMove = estimate.LargeMove,
-								FromLocationId = estimate.FromLocationId,
-								ToLocationId = estimate.ToLocationId,
-								Locations = Locations
-							})
-						);
+			estimateList.ForEach(estimate => estimateViewModelList.Add(new EstimateViewModel
+																			{
+																				EstimateId = estimate.Id,
+																				SmallMove = estimate.SmallMove,
+																				MediumMove = estimate.MediumMove,
+																				LargeMove = estimate.LargeMove,
+																				FromLocationId = estimate.FromLocationId,
+																				ToLocationId = estimate.ToLocationId,
+																				FromLocationName = estimate.FromLocation.Name,
+																				ToLocationName = estimate.ToLocation.Name,
+																				Locations = locations
+																			}));
 
-			return View(EstimateViewModels);
+
+
+			homeViewModel.EstimateViewModelList = estimateViewModelList;
+			homeViewModel.searchViewModel = searchViewModel;
+			homeViewModel.AddEstimate = new Estimate();
+			homeViewModel.Locations = locations;
+
+			return View( homeViewModel );
         }
 
 		[HttpPost]
@@ -72,12 +85,22 @@ namespace MoveEstimator.Controllers
         }
 
 		[HttpPost]
-		public ActionResult Create( Estimate estimate )
+		public ActionResult Create(Estimate AddEstimate)
 		{
-			if ( ModelState.IsValid )
+			if (ModelState.IsValid)
 			{
-				db.Estimates.Add( estimate );
-				db.SaveChanges();
+				Estimate estimate = AddEstimate;
+
+				if ( db.Estimates.Any( e => e.FromLocationId == estimate.FromLocationId && e.ToLocationId == estimate.ToLocationId ) )
+				{
+					TempData["AlreadyExsists"] = "Alread exsists";
+				}
+				else
+				{
+					db.Estimates.Add( estimate );
+					db.SaveChanges();
+				}
+
 			}
 			return RedirectToAction("Index");
 		}

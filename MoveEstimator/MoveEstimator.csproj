@@ -141,7 +141,9 @@
     <Compile Include="Models\Db.cs" />
     <Compile Include="Models\Estimate.cs" />
     <Compile Include="Models\EstimateViewModel.cs" />
+    <Compile Include="Models\HomeViewModel.cs" />
     <Compile Include="Models\Location.cs" />
+    <Compile Include="Models\SearchViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
