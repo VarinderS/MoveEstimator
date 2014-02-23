@@ -66,18 +66,19 @@ namespace MoveEstimator.Controllers
         }
 
 		[HttpPost]
-        public ActionResult Update( EstimateViewModel estimateViewModel )
+		public ActionResult Update(EstimateViewModel estimateViewModel)
         {
+			
 			if ( ModelState.IsValid ) 
 			{
-				Estimate estimate = new Estimate { 
-										Id = estimateViewModel.EstimateId,
-										FromLocationId = estimateViewModel.FromLocationId,
-										ToLocationId = estimateViewModel.ToLocationId,
-										SmallMove = estimateViewModel.SmallMove,
-										MediumMove = estimateViewModel.MediumMove,
-										LargeMove = estimateViewModel.LargeMove
-									};
+				Estimate estimate = new Estimate {
+					Id = estimateViewModel.EstimateId,
+					FromLocationId = estimateViewModel.FromLocationId,
+					ToLocationId = estimateViewModel.ToLocationId,
+					SmallMove = estimateViewModel.SmallMove,
+					MediumMove = estimateViewModel.MediumMove,
+					LargeMove = estimateViewModel.LargeMove
+				};
 				db.Entry(estimate).State = EntityState.Modified;
 				db.SaveChanges();
 			}
@@ -103,6 +104,40 @@ namespace MoveEstimator.Controllers
 
 			}
 			return RedirectToAction("Index");
+		}
+
+		public ActionResult	Delete(int id = 0)
+		{
+			var estimate = db.Estimates.Find(id);
+
+			if ( estimate == null ) 
+			{
+				return HttpNotFound();
+			}
+			return View(estimate);
+		}
+
+		public ActionResult	DeleteConfirmed(int id = 0)
+		{
+			var estimate = db.Estimates.Find( id );
+
+			if ( estimate == null )
+			{
+				return HttpNotFound();
+			}
+			else 
+			{
+				db.Estimates.Remove( estimate );
+				db.SaveChanges();
+
+				return RedirectToAction( "Index" );
+			}
+		}
+
+		protected override void Dispose(bool disposing)
+		{
+			db.Dispose();
+			base.Dispose(disposing);
 		}
 
     }

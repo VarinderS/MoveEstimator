@@ -11,40 +11,45 @@
 	var addEstimate = Model.AddEstimate;
 }
 
-<!-- form for search -->
-
-@using ( Html.BeginForm("Index", "Home", FormMethod.Get) )
-{
-	<table>
-		<tr>
-			<td>@Html.DropDownListFor( model => searchViewModel.FromLocationId, new SelectList( Model.Locations, "Id", "Name", searchViewModel.FromLocationId ), "From Location" )</td>
-			<td>@Html.DropDownListFor( model => searchViewModel.ToLocationId, new SelectList( Model.Locations, "Id", "Name", searchViewModel.ToLocationId ), "To Location" )</td>
-			<td><input type="submit" name="search" /></td>
-		</tr>
-	
-	</table>
-}
-
+@Html.Partial("_estimateSearchForm", searchViewModel)
 <hr />
 
-<table>
-	<tr>
-		<th>@Html.DisplayNameFor( model => singleEstimate.FromLocationName )</th>
-		<th>@Html.DisplayNameFor( model => singleEstimate.ToLocationName )</th>
-		<th>@Html.DisplayNameFor( model => singleEstimate.SmallMove )</th>
-		<th>@Html.DisplayNameFor( model => singleEstimate.MediumMove )</th>
-		<th>@Html.DisplayNameFor( model => singleEstimate.LargeMove )</th>
-	</tr>
-	@foreach (var estimate in estimateList)
-	{
+<table class="main-view">
+	<thead>
 		<tr>
-			<td>@Html.DisplayFor( model => estimate.FromLocationName )</td>
-			<td>@Html.DisplayFor( model => estimate.ToLocationName )</td>
-			<td>@Html.DisplayFor( model => estimate.SmallMove )</td>
-			<td>@Html.DisplayFor( model => estimate.MediumMove )</td>
-			<td>@Html.DisplayFor( model => estimate.LargeMove )</td>
-		</tr>	
-	}
+			<th>@Html.DisplayNameFor( model => singleEstimate.FromLocationName )</th>
+			<th>@Html.DisplayNameFor( model => singleEstimate.ToLocationName )</th>
+			<th>@Html.DisplayNameFor( model => singleEstimate.SmallMove )</th>
+			<th>@Html.DisplayNameFor( model => singleEstimate.MediumMove )</th>
+			<th>@Html.DisplayNameFor( model => singleEstimate.LargeMove )</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var estimateViewModel in Model.EstimateViewModelList)
+		{
+			using (Html.BeginForm("Update", "Home"))
+			{
+				<tr>
+					<td>@Html.DisplayFor( model => estimateViewModel.FromLocationName )</td>
+					<td>@Html.DisplayFor( model => estimateViewModel.ToLocationName )</td>
+					<td>@Html.DisplayFor( model => estimateViewModel.SmallMove )</td>
+					<td>@Html.DisplayFor( model => estimateViewModel.MediumMove )</td>
+					<td>@Html.DisplayFor( model => estimateViewModel.LargeMove )</td>
+					<td>@Html.ActionLink("Edit", "Update", new { id = estimateViewModel.EstimateId }) @Html.ActionLink("Delete", "Delete", new { id = estimateViewModel.EstimateId })</td>
+				</tr>
+			
+				<tr class="update-row">
+					<td>@Html.DropDownListFor( model => estimateViewModel.FromLocationId, new SelectList( Model.Locations, "Id", "Name", estimateViewModel.FromLocationId ), new { Id="" } )</td>
+					<td>@Html.DropDownListFor( model => estimateViewModel.ToLocationId, new SelectList( Model.Locations, "Id", "Name", estimateViewModel.ToLocationId ), new { Id="" } )</td>
+					<td>@Html.TextBoxFor( model => estimateViewModel.SmallMove, new { Id="" } )</td>
+					<td>@Html.TextBoxFor( model => estimateViewModel.MediumMove, new { Id="" } )</td>
+					<td>@Html.TextBoxFor( model => estimateViewModel.LargeMove, new { Id="" } )</td>
+					<td>@Html.HiddenFor( model => estimateViewModel.EstimateId, new { Id="" } )<input type="submit" value="update" /></td>
+				</tr>
+			}
+		}
+	</tbody>
 </table>
 
 <hr />
@@ -61,4 +66,9 @@
 			<td><input type="submit" value="Add" /></td>
 		</tr>
 	</table>
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
 }

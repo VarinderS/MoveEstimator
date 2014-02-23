@@ -59,3 +59,43 @@ textarea {
 .validation-summary-valid {
     display: none;
 }
+
+
+.main-page {
+	width:1200px;
+	max-width:100%;
+	margin:0 auto;
+}
+
+.main-view {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #DDDDDD;
+	margin-bottom:20px;
+	width:100%;
+}
+
+.main-view thead, 
+.main-view tfoot {
+    background: none repeat scroll 0 0 #F5F5F5;
+}
+
+.main-view thead th, 
+.main-view thead td {
+    color: #222222;
+    font-size: 0.77778rem;
+    font-weight: bold;
+    text-align: left;
+}
+
+.main-view td,
+.main-view th {
+	padding:5px;
+}
+
+.main-view tr:nth-of-type(even) {
+    background: none repeat scroll 0 0 #F9F9F9;
+}
+
+.main-view .update-row {
+	display:none;
+}

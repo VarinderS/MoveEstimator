@@ -8,7 +8,7 @@ namespace MoveEstimator.Models
 	public class HomeViewModel
 	{
 		public SearchViewModel searchViewModel { get; set; }
-		public IEnumerable<EstimateViewModel> EstimateViewModelList { get; set; }
+		public IList<EstimateViewModel> EstimateViewModelList { get; set; }
 		public Estimate AddEstimate { get; set; }
 		public IEnumerable<Location> Locations { get; set; }
 	}

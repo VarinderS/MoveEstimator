@@ -1,0 +1,14 @@
+﻿@model MoveEstimator.Models.Estimate
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+Are you sure you want to delete an estimate from @Model.FromLocation.Name to @Model.ToLocation.Name ?
+
+@Html.ActionLink("Ya", "DeleteConfirmed", new { id = Model.Id })
+
+<br />
+
+@Html.ActionLink("Na", "Index")
