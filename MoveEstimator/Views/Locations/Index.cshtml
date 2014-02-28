@@ -1,0 +1,57 @@
+﻿@model MoveEstimator.Models.LocationViewModel
+
+@{
+    ViewBag.Title = "Index";
+	var locationList = Model.LocationList;
+	var singleLocation = Model.LocationList.FirstOrDefault();
+	var locationModel = Model.LocationModel;
+}
+
+<h2>Locations</h2>
+@TempData["AlreadyExsists"]
+<div class="table">
+	<div class="main-view-header row">
+		<div class="cell">
+			@Html.DisplayNameFor(model => singleLocation.Name)
+		</div>
+		<div class="cell">
+			Actions
+		</div>
+	</div>
+	@foreach (var location in locationList)
+	{
+		<div class="row">
+			<div class="cell">
+				@Html.DisplayFor(model => location.Name)
+			</div>
+			<div class="cell">
+				<a href="#">Update</a> | <a href="@Url.Action("Delete", "Locations", new {id = location.Id})">Delete</a>
+			</div>
+		</div>
+		using (Html.BeginForm("Update", "Locations", FormMethod.Post, new { @class="row" }))
+		{
+			<div class="cell">
+				@Html.HiddenFor(model => location.Id)
+				@Html.EditorFor(model => location.Name)
+			</div>
+			<div class="cell">
+				<input type="submit" value="update" />
+			</div>
+		}
+	}
+</div>
+
+<hr />
+
+@using (Html.BeginForm("Add", "Locations", FormMethod.Post, new { @class="table" }))
+{
+	<div class="row">
+		<div class="cell">
+			@Html.HiddenFor(model => locationModel.Id)
+			@Html.EditorFor(model => locationModel.Name)
+		</div>
+		<div class="cell">
+			<input type="submit" value="Add" />
+		</div>
+	</div>
+}

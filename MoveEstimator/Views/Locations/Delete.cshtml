@@ -1,0 +1,9 @@
+﻿@model MoveEstimator.Models.Location
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+<p> you sure you want to delete @Model.Name ?</p>
+<p><a href="@Url.Action("DeleteConfirmed", "Locations", new {id = Model.Id})">Yea</a> || <a href="#">Nah</a></p>

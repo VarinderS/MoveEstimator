@@ -14,43 +14,74 @@
 @Html.Partial("_estimateSearchForm", searchViewModel)
 <hr />
 
-<table class="main-view">
-	<thead>
-		<tr>
-			<th>@Html.DisplayNameFor( model => singleEstimate.FromLocationName )</th>
-			<th>@Html.DisplayNameFor( model => singleEstimate.ToLocationName )</th>
-			<th>@Html.DisplayNameFor( model => singleEstimate.SmallMove )</th>
-			<th>@Html.DisplayNameFor( model => singleEstimate.MediumMove )</th>
-			<th>@Html.DisplayNameFor( model => singleEstimate.LargeMove )</th>
-			<th>Actions</th>
-		</tr>
-	</thead>
-	<tbody>
-		@foreach (var estimateViewModel in Model.EstimateViewModelList)
+<div class="main-view table">
+	<div class="main-view-header row">
+		<div class="cell">
+			@Html.DisplayNameFor( model => singleEstimate.FromLocationName )
+		</div>
+		<div class="cell">
+			@Html.DisplayNameFor( model => singleEstimate.ToLocationName )
+		</div>
+		<div class="cell">
+			@Html.DisplayNameFor( model => singleEstimate.SmallMove )
+		</div>
+		<div class="cell">
+			@Html.DisplayNameFor( model => singleEstimate.MediumMove )
+		</div>
+		<div class="cell">
+			@Html.DisplayNameFor( model => singleEstimate.LargeMove )
+		</div>
+		<div class="cell">
+			Actions
+		</div>
+	</div>
+
+	@foreach (var estimateViewModel in Model.EstimateViewModelList)
+	{
+		<div class="row"> 
+			<div class="cell">
+				@Html.DisplayFor( model => estimateViewModel.FromLocationName )
+			</div>
+			<div class="cell">
+				@Html.DisplayFor( model => estimateViewModel.ToLocationName )
+			</div>
+			<div class="cell">
+				@Html.DisplayFor( model => estimateViewModel.SmallMove )
+			</div>
+			<div class="cell">
+				@Html.DisplayFor( model => estimateViewModel.MediumMove )
+			</div>
+			<div class="cell">
+				@Html.DisplayFor( model => estimateViewModel.LargeMove )
+			</div>
+			<div class="cell">
+				<a href="#" class="update">Update</a> | <a href="@Url.Action("Delete", "Home", new { id = estimateViewModel.EstimateId })">Delete</a>
+			</div>
+		</div>
+		using (Html.BeginForm("Update", "Home", FormMethod.Post, new { @class="row" }))
 		{
-			using (Html.BeginForm("Update", "Home"))
-			{
-				<tr>
-					<td>@Html.DisplayFor( model => estimateViewModel.FromLocationName )</td>
-					<td>@Html.DisplayFor( model => estimateViewModel.ToLocationName )</td>
-					<td>@Html.DisplayFor( model => estimateViewModel.SmallMove )</td>
-					<td>@Html.DisplayFor( model => estimateViewModel.MediumMove )</td>
-					<td>@Html.DisplayFor( model => estimateViewModel.LargeMove )</td>
-					<td>@Html.ActionLink("Edit", "Update", new { id = estimateViewModel.EstimateId }) @Html.ActionLink("Delete", "Delete", new { id = estimateViewModel.EstimateId })</td>
-				</tr>
-			
-				<tr class="update-row">
-					<td>@Html.DropDownListFor( model => estimateViewModel.FromLocationId, new SelectList( Model.Locations, "Id", "Name", estimateViewModel.FromLocationId ), new { Id="" } )</td>
-					<td>@Html.DropDownListFor( model => estimateViewModel.ToLocationId, new SelectList( Model.Locations, "Id", "Name", estimateViewModel.ToLocationId ), new { Id="" } )</td>
-					<td>@Html.TextBoxFor( model => estimateViewModel.SmallMove, new { Id="" } )</td>
-					<td>@Html.TextBoxFor( model => estimateViewModel.MediumMove, new { Id="" } )</td>
-					<td>@Html.TextBoxFor( model => estimateViewModel.LargeMove, new { Id="" } )</td>
-					<td>@Html.HiddenFor( model => estimateViewModel.EstimateId, new { Id="" } )<input type="submit" value="update" /></td>
-				</tr>
-			}
+			<div class="cell">
+				@Html.DropDownListFor(model => estimateViewModel.FromLocationId, new SelectList( Model.Locations, "Id", "Name", estimateViewModel.FromLocationId))
+			</div>
+			<div class="cell">
+				@Html.DropDownListFor(model => estimateViewModel.ToLocationId, new SelectList( Model.Locations, "Id", "Name", estimateViewModel.ToLocationId ))
+			</div>
+			<div class="cell">
+				@Html.EditorFor(model => estimateViewModel.SmallMove)
+			</div>
+			<div class="cell">
+				@Html.EditorFor(model => estimateViewModel.MediumMove)
+			</div>
+			<div class="cell">
+				@Html.EditorFor(model => estimateViewModel.LargeMove)
+			</div>
+			<div class="cell">
+				@Html.HiddenFor(model => estimateViewModel.EstimateId)
+				<input type="submit" value="update" />
+			</div>
 		}
-	</tbody>
-</table>
+	}
+</div>
 
 <hr />
 
