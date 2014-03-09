@@ -1,17 +1,42 @@
 ﻿@model MoveEstimator.Models.HomeViewModel
 
+
+@using ( Html.BeginForm( "Create", "Home", FormMethod.Post ) )
+{
+	<table>
+		<tr>
+			<td>@Html.DropDownListFor( model => model.AddEstimate.FromLocationId, new SelectList( Model.LocationList, "Id", "Name", Model.AddEstimate.FromLocationId ), "From Location" )</td>
+			<td>@Html.DropDownListFor( model => model.AddEstimate.ToLocationId, new SelectList( Model.LocationList, "Id", "Name", Model.AddEstimate.ToLocationId ), "To Location" )</td>
+			<td>@Html.EditorFor( model => model.AddEstimate.SmallMove )</td>
+			<td>@Html.EditorFor( model => model.AddEstimate.MediumMove )</td>
+			<td>@Html.EditorFor( model => model.AddEstimate.LargeMove )</td>
+			<td><input type="submit" value="Add" /></td>
+		</tr>
+	</table>
+}
+
+
 <h2>Estimates</h2>
 
 @TempData["AlreadyExsists"]
 
 @{ 
-	var searchViewModel = Model.searchViewModel;
-	var estimateList = Model.EstimateViewModelList;
-	var singleEstimate = Model.EstimateViewModelList.FirstOrDefault();
-	var addEstimate = Model.AddEstimate;
+	var estimateList = Model.EstimateList;
+	var singleEstimate = Model.EstimateList.FirstOrDefault();
 }
 
-@Html.Partial("_estimateSearchForm", searchViewModel)
+
+@using (Html.BeginForm("Index", "Home", FormMethod.Get))
+{
+	<table>
+		<tr>
+			<td>@Html.DropDownListFor(model => model.Search.FromLocationId, new SelectList(Model.LocationList, "Id", "Name", Model.Search.FromLocationId), "From Location")</td>
+			<td>@Html.DropDownListFor(model => model.Search.ToLocationId, new SelectList(Model.LocationList, "Id", "Name", Model.Search.ToLocationId), "To Location")</td>
+			<td><input type="submit" value="search" /></td>
+		</tr>
+	</table>
+}
+
 <hr />
 
 <div class="main-view table">
@@ -36,7 +61,7 @@
 		</div>
 	</div>
 
-	@foreach (var estimateViewModel in Model.EstimateViewModelList)
+	@foreach (var estimateViewModel in Model.EstimateList)
 	{
 		<div class="row"> 
 			<div class="cell">
@@ -55,16 +80,16 @@
 				@Html.DisplayFor( model => estimateViewModel.LargeMove )
 			</div>
 			<div class="cell">
-				<a href="#" class="update">Update</a> | <a href="@Url.Action("Delete", "Home", new { id = estimateViewModel.EstimateId })">Delete</a>
+				<a href="#" class="update">Update</a> | <a href="@Url.Action("Delete", "Home", new { id = estimateViewModel.Id })">Delete</a>
 			</div>
 		</div>
-		using (Html.BeginForm("Update", "Home", FormMethod.Post, new { @class="row" }))
+		using (Html.BeginForm("Update", "Home", FormMethod.Post, new { @class="row row-edit" }))
 		{
 			<div class="cell">
-				@Html.DropDownListFor(model => estimateViewModel.FromLocationId, new SelectList( Model.Locations, "Id", "Name", estimateViewModel.FromLocationId))
+				@Html.DropDownListFor(model => estimateViewModel.FromLocationId, new SelectList( Model.LocationList, "Id", "Name", estimateViewModel.FromLocationId))
 			</div>
 			<div class="cell">
-				@Html.DropDownListFor(model => estimateViewModel.ToLocationId, new SelectList( Model.Locations, "Id", "Name", estimateViewModel.ToLocationId ))
+				@Html.DropDownListFor(model => estimateViewModel.ToLocationId, new SelectList( Model.LocationList, "Id", "Name", estimateViewModel.ToLocationId ))
 			</div>
 			<div class="cell">
 				@Html.EditorFor(model => estimateViewModel.SmallMove)
@@ -76,7 +101,7 @@
 				@Html.EditorFor(model => estimateViewModel.LargeMove)
 			</div>
 			<div class="cell">
-				@Html.HiddenFor(model => estimateViewModel.EstimateId)
+				@Html.HiddenFor(model => estimateViewModel.Id)
 				<input type="submit" value="update" />
 			</div>
 		}
@@ -84,20 +109,6 @@
 </div>
 
 <hr />
-
-@using ( Html.BeginForm( "Create", "Home", FormMethod.Post ) )
-{
-	<table>
-		<tr>
-			<td>@Html.DropDownListFor( model => model.AddEstimate.FromLocationId, new SelectList( Model.Locations, "Id", "Name", Model.AddEstimate.FromLocationId ), "From Location" )</td>
-			<td>@Html.DropDownListFor( model => model.AddEstimate.ToLocationId, new SelectList( Model.Locations, "Id", "Name", Model.AddEstimate.ToLocationId ), "To Location" )</td>
-			<td>@Html.EditorFor( model => model.AddEstimate.SmallMove )</td>
-			<td>@Html.EditorFor( model => model.AddEstimate.MediumMove )</td>
-			<td>@Html.EditorFor( model => model.AddEstimate.LargeMove )</td>
-			<td><input type="submit" value="Add" /></td>
-		</tr>
-	</table>
-}
 
 
 @section Scripts {

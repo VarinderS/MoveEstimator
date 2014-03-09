@@ -41,6 +41,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>..\packages\AutoMapper.3.1.1\lib\net40\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper.Net4">
+      <HintPath>..\packages\AutoMapper.3.1.1\lib\net40\AutoMapper.Net4.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -138,8 +144,13 @@
     <Compile Include="Migrations\201402150330216_initialCreate.Designer.cs">
       <DependentUpon>201402150330216_initialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201403090601506_addingCurrencyType.cs" />
+    <Compile Include="Migrations\201403090601506_addingCurrencyType.Designer.cs">
+      <DependentUpon>201403090601506_addingCurrencyType.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Db.cs" />
+    <Compile Include="Models\DeleteLocationViewModel.cs" />
     <Compile Include="Models\Estimate.cs" />
     <Compile Include="Models\EstimateViewModel.cs" />
     <Compile Include="Models\HomeViewModel.cs" />
@@ -150,6 +161,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\packages\AutoMapper.3.1.1\lib\net40\AutoMapper.Net4.dll">
+      <Link>AutoMapper.Net4.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
@@ -183,9 +198,6 @@
     <Content Include="Views\Test\Edit.cshtml" />
     <Content Include="Views\Test\Delete.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Home\EditorTemplates\EstimateViewModel.cshtml" />
-    <Content Include="Views\Home\_estimateForm.cshtml" />
-    <Content Include="Views\Home\_estimateSearchForm.cshtml" />
     <Content Include="Views\Home\Delete.cshtml" />
     <Content Include="Views\Locations\Index.cshtml" />
     <Content Include="Views\Locations\Delete.cshtml" />
@@ -199,6 +211,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201402150330216_initialCreate.resx">
       <DependentUpon>201402150330216_initialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201403090601506_addingCurrencyType.resx">
+      <DependentUpon>201403090601506_addingCurrencyType.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
