@@ -6,7 +6,7 @@
 }
 
 header, footer, nav, section {
-    display: block;
+    display: block !important;
 }
 
 
